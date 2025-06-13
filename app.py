@@ -3,10 +3,16 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from pulp import LpMaximize, LpProblem, LpVariable, lpSum
 
-# --- Optimization Function ---
+# --- Smart Optimization Function ---
 def optimize_budget(income, categories, utilities, allocation_ratios, min_spending, savings_target):
     model = LpProblem(name="budget_optimization", sense=LpMaximize)
 
+    # Adjust Rent logic based on low priority (1 or 2)
+    if utilities["Rent"] <= 2:
+        allocation_ratios["Rent"] = 0.01  # Set very low allocation
+        min_spending["Rent"] = 0          # No minimum if user owns a house
+
+    # Define spend variables
     spend_vars = {
         cat: LpVariable(
             name=cat,
@@ -16,14 +22,24 @@ def optimize_budget(income, categories, utilities, allocation_ratios, min_spendi
         ) for cat in categories
     }
 
+    # Maximize utility
     model += lpSum(spend_vars[cat] * utilities[cat] for cat in categories), "Total_Utility"
+
+    # Budget constraint
     model += lpSum(spend_vars[cat] for cat in categories) <= income, "Budget_Limit"
 
-    for cat in ["Rent", "Food", "Savings", "Health", "Transport"]:
+    # Minimums for essentials (excluding Rent if it's already excluded)
+    for cat in ["Food", "Savings", "Health", "Transport"]:
         model += spend_vars[cat] >= min_spending[cat], f"Min_{cat}"
 
+    # Add Rent if user rated it > 2
+    if utilities["Rent"] > 2:
+        model += spend_vars["Rent"] >= min_spending["Rent"], "Min_Rent"
+
+    # Savings must meet target
     model += spend_vars["Savings"] >= savings_target, "Savings_Target"
 
+    # Eliminate Entertainment if income is too low
     if income < 8000:
         model += spend_vars["Entertainment"] == 0, "No_Entertainment_If_Low_Income"
 
@@ -50,6 +66,7 @@ allocation_ratios = {
 }
 min_spending = {cat: income * allocation_ratios[cat] * 0.5 for cat in categories}
 
+# --- Run Optimization ---
 if st.sidebar.button("Optimize Budget"):
     budget_allocation = optimize_budget(income, categories, utilities, allocation_ratios, min_spending, savings_target)
     budget_df = pd.DataFrame(list(budget_allocation.items()), columns=["Category", "Allocated Amount"])
