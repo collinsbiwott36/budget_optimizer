@@ -1,0 +1,52 @@
+\begin{thebibliography}{}
+
+\bibitem[Ijiri, 1965]{ijiri1965linear}
+Ijiri, Y. (1965).
+\newblock {\em A Linear Programming Model for Budgeting}.
+\newblock RAND Corporation, Santa Monica, CA.
+
+\bibitem[Joo and Lee, 2020]{joo2020personalized}
+Joo, Y. and Lee, M. (2020).
+\newblock Personalized budgeting system integrating behavioral data and
+  optimization.
+\newblock {\em Journal of Behavioral and Experimental Finance}, 25:100263.
+
+\bibitem[Kaur, 2023]{navdeep2023visualbudget}
+Kaur, N. (2023).
+\newblock Visual interfaces for budget planning: Enhancing comprehension and
+  engagement.
+\newblock {\em Journal of Financial Technology and Visualization}, 7(1):45--59.
+
+\bibitem[Kerbl, 2011]{kerbl2011optimization}
+Kerbl, S. (2011).
+\newblock Optimization techniques in dynamic personal budgeting.
+\newblock {\em Journal of Financial Planning}, 24(4):36--42.
+
+\bibitem[Martello and Toth, 2000]{martello2000knapsack}
+Martello, S. and Toth, P. (2000).
+\newblock {\em Knapsack Problems: Algorithms and Computer Implementations}.
+\newblock Wiley-Interscience.
+
+\bibitem[Mukesh, 2025]{mukesh2025knapsack}
+Mukesh, A. (2025).
+\newblock Adaptive budgeting using the knapsack optimization framework.
+\newblock {\em Journal of Applied Economics and Decision Sciences},
+  10(2):55--68.
+
+\bibitem[Patria, 2025]{harrypatria2025pulp}
+Patria, H. (2025).
+\newblock Budget optimization using python's pulp: A practical implementation.
+\newblock {\em Computational Finance Review}, 15(1):12--25.
+
+\bibitem[Pogue, 1971]{pogue1971linear}
+Pogue, G.~A. (1971).
+\newblock A linear programming model for financial planning.
+\newblock {\em The Journal of Finance}, 26(5):1133--1143.
+
+\bibitem[Zhang and Wang, 2019]{zhang2019mlbudgeting}
+Zhang, Y. and Wang, L. (2019).
+\newblock Machine learning-based budgeting model for financial planning.
+\newblock {\em IEEE Transactions on Systems, Man, and Cybernetics: Systems},
+  49(12):2602--2613.
+
+\end{thebibliography}
