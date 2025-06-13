@@ -12,7 +12,14 @@ def optimize_budget(income, categories, utilities, allocation_ratios, min_spendi
         allocation_ratios["Rent"] = 0.01  # Set very low allocation
         min_spending["Rent"] = 0          # No minimum if user owns a house
 
-    # Define spend variables
+    # Boost other categories slightly if Rent is low (knapsack behavior)
+    else:
+        utilities = {
+            cat: utilities[cat] + 2 if cat != "Rent" else utilities[cat]
+            for cat in categories
+        }
+
+    # Define spending variables
     spend_vars = {
         cat: LpVariable(
             name=cat,
@@ -22,30 +29,33 @@ def optimize_budget(income, categories, utilities, allocation_ratios, min_spendi
         ) for cat in categories
     }
 
-    # Maximize utility
-    model += lpSum(spend_vars[cat] * utilities[cat] for cat in categories), "Total_Utility"
+    # Variable to capture leftover income
+    remaining = LpVariable("Remaining", lowBound=0, cat="Continuous")
 
-    # Budget constraint
-    model += lpSum(spend_vars[cat] for cat in categories) <= income, "Budget_Limit"
+    # Full budget must be used
+    model += lpSum(spend_vars[cat] for cat in categories) + remaining == income, "Full_Budget_Use"
 
-    # Minimums for essentials (excluding Rent if it's already excluded)
+    # Objective: Maximize utility and discourage leftovers
+    model += lpSum(spend_vars[cat] * utilities[cat] for cat in categories) - 0.001 * remaining, "Maximize_Utility"
+
+    # Minimum for essential categories
     for cat in ["Food", "Savings", "Health", "Transport"]:
         model += spend_vars[cat] >= min_spending[cat], f"Min_{cat}"
 
-    # Add Rent if user rated it > 2
     if utilities["Rent"] > 2:
         model += spend_vars["Rent"] >= min_spending["Rent"], "Min_Rent"
 
-    # Savings must meet target
     model += spend_vars["Savings"] >= savings_target, "Savings_Target"
 
-    # Eliminate Entertainment if income is too low
     if income < 8000:
         model += spend_vars["Entertainment"] == 0, "No_Entertainment_If_Low_Income"
 
     model.solve()
 
-    return {cat: spend_vars[cat].value() for cat in categories}
+    # Return allocation including remaining unallocated funds
+    allocation = {cat: spend_vars[cat].value() for cat in categories}
+    allocation["Unallocated"] = remaining.value()
+    return allocation
 
 # --- Streamlit App ---
 st.title("💰 Personal Budget Optimizer")
@@ -82,10 +92,11 @@ if st.sidebar.button("Optimize Budget"):
     ax1.set_title("Optimized Budget Allocation")
     st.pyplot(fig1)
 
-    # Pie Chart
+    # Pie Chart (exclude Unallocated if 0)
     st.subheader("🧁 Pie Chart")
+    pie_data = {k: v for k, v in budget_allocation.items() if k != "Unallocated" and v > 0}
     fig2, ax2 = plt.subplots()
-    ax2.pie(budget_allocation.values(), labels=budget_allocation.keys(), autopct="%1.1f%%", startangle=90)
+    ax2.pie(pie_data.values(), labels=pie_data.keys(), autopct="%1.1f%%", startangle=90)
     ax2.axis("equal")
     st.pyplot(fig2)
 
