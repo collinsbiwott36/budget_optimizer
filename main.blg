@@ -5,46 +5,44 @@ Reallocating 'name_of_file' (item size: 1) to 8 items.
 The style file: apalike.bst
 Reallocating 'name_of_file' (item size: 1) to 11 items.
 Database file #1: references.bib
-Warning--I didn't find a database entry for "upgrad2025knapsack"
-You've used 9 entries,
+You've used 10 entries,
             1935 wiz_defined-function locations,
-            534 strings with 4995 characters,
-and the built_in function-call counts, 3180 in all, are:
-= -- 320
-> -- 81
-< -- 9
-+ -- 28
-- -- 24
-* -- 261
-:= -- 556
-add.period$ -- 27
-call.type$ -- 9
-change.case$ -- 55
-chr.to.int$ -- 9
-cite$ -- 9
-duplicate$ -- 126
-empty$ -- 251
-format.name$ -- 39
-if$ -- 618
+            538 strings with 5111 characters,
+and the built_in function-call counts, 3459 in all, are:
+= -- 348
+> -- 88
+< -- 10
++ -- 30
+- -- 26
+* -- 278
+:= -- 610
+add.period$ -- 31
+call.type$ -- 10
+change.case$ -- 61
+chr.to.int$ -- 10
+cite$ -- 10
+duplicate$ -- 139
+empty$ -- 271
+format.name$ -- 42
+if$ -- 671
 int.to.chr$ -- 1
 int.to.str$ -- 0
-missing$ -- 11
-newline$ -- 48
-num.names$ -- 27
-pop$ -- 39
+missing$ -- 12
+newline$ -- 54
+num.names$ -- 30
+pop$ -- 43
 preamble$ -- 1
-purify$ -- 57
+purify$ -- 63
 quote$ -- 0
-skip$ -- 98
+skip$ -- 109
 stack$ -- 0
-substring$ -- 268
-swap$ -- 9
+substring$ -- 280
+swap$ -- 10
 text.length$ -- 0
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 50
+type$ -- 56
 warning$ -- 0
-while$ -- 31
+while$ -- 33
 width$ -- 0
-write$ -- 118
-(There was 1 warning)
+write$ -- 132

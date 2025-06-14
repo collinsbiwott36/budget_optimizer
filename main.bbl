@@ -43,6 +43,12 @@ Pogue, G.~A. (1971).
 \newblock A linear programming model for financial planning.
 \newblock {\em The Journal of Finance}, 26(5):1133--1143.
 
+\bibitem[Upgrad, 2025]{upgrad2025knapsack}
+Upgrad, M. (2025).
+\newblock Applying the knapsack problem to personal budgeting.
+\newblock {\em International Journal of Financial Computing}.
+\newblock Preprint.
+
 \bibitem[Zhang and Wang, 2019]{zhang2019mlbudgeting}
 Zhang, Y. and Wang, L. (2019).
 \newblock Machine learning-based budgeting model for financial planning.

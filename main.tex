@@ -94,28 +94,32 @@ The budget optimization process begins with user inputs that define financial co
 Once collected, these inputs serve as parameters for optimization, enabling dynamic budget adjustments based on individual financial preferences.
 
 \textbf{Optimization Model} \\
-The budget allocation problem is formulated as a Linear Programming model, where the objective function aims to maximize financial utility while adhering to budget constraints. The decision variables represent spending allocations across categories, and constraints enforce financial rules ensuring responsible money management.
+he budget allocation model is formulated as a Linear Programming (LP) problem that seeks to maximize utility across multiple financial categories. Each category \(i\) receives an allocation \(x_i\), subject to user-defined preferences \(u_i\), income \(I\), and spending constraints.
 
-Mathematically, the problem is expressed as:
-\[
-    \max \sum_{i=1}^{n} u_i x_i
-\]
-subject to:
-\[
-    \sum_{i=1}^{n} x_i \leq I
-\]
-where:
+Unlike the earlier approach, this revised model introduces three major enhancements:
+
 \begin{itemize}
-    \item $x_i$ represents the allocated budget for category $i$,
-    \item $u_i$ is the userdefined utility score for that category,
-    \item $I$ is the total monthly income.
+    \item \textbf{Income-Aware Scaling of Utility Scores:} Category priorities \(u_i\) are normalized from the 1–10 rating scale to a continuous utility factor, then dynamically scaled based on income level. This ensures that essential categories like \textit{Water} and \textit{Electricity} are not over-prioritized by low-income users, while high-income users can express higher granularity in preferences.
+
+    \item \textbf{Dynamic Redidtribution for Low Rent:} If a user raes \textit{Rent}  is less than 2, the model redistributes excess funds to other categories, ensuring that low-income users can still allocate sufficient resources to essentials without overspending on rent. This prevents underutilization of income and allows for more balanced spending across categories.
+
+    \item \textbf{Full Budget Utilization:} The model strictly enforces \(\sum x_i = I\), ensuring every coin is allocated wisely, eliminating leftover or unassigned income.
 \end{itemize}
 
-Additionally, the model enforces:
+The objective function is:
+
+\[
+    \max Z = \sum_{i=1}^{n} u_i^{*} \cdot x_i \quad \text{subject to} \quad \sum_{i=1}^{n} x_i = I, \quad x_i \geq L_i, \quad x_{\text{Savings}} \geq ST
+\]
+
+Where:
+
 \begin{itemize}
-    \item \textbf{Minimum spending constraints:} Ensuring essential expenses meet required thresholds.
-    \item \textbf{Savings enforcement:} Allocating at least the target amount before discretionary spending.
-    \item \textbf{Discretionary spending conditions:} Entertainment and leisure expenses are only included if income exceeds a predefined threshold.
+    \item \(x_i\): amount allocated to category \(i\)
+    \item \(u_i^{*}\): scaled utility score for category \(i\)
+    \item \(I\): user’s total income
+    \item \(L_i\): minimum allocation constraint for essential category \(i\)
+    \item \(ST\): savings target amount
 \end{itemize}
 
 \textbf{Computational Implementation} \\
